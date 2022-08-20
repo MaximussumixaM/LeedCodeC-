@@ -1,20 +1,70 @@
-﻿// 4Sum.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿//Учитывая массив nums из n целых чисел, вернуть массив всех уникальных четверок[nums[a], nums[b], nums[c], nums[d]], таких что :
+
+//0 <= а, б, в, d < п
+  //  a, b, c и d различны.
+  //  nums[a] + nums[b] + nums[c] + nums[d] == цель
+  //  Вы можете вернуть ответ в любом порядке.
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    static vector<vector<int>> fourSum(vector<int>& nums, int target) {
+
+        vector<vector<int>> ans;
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                long long  ntar = (long)target - (nums[i] + nums[j]);
+                int s = j + 1, e = n - 1;
+                while (s < e) {
+                    if (nums[s] + nums[e] == ntar) {
+                        ans.push_back({ nums[i],nums[j],nums[s],nums[e] });
+                        while (s < e && nums[s] == nums[s + 1]) s++;
+                        while (s < e && nums[e] == nums[e - 1]) e--;
+                        s++, e--;
+                    }
+                    else  if (nums[s] + nums[e] > ntar) {
+                        e--;
+                    }
+                    else {
+                        s++;
+                    }
+                }
+                while (j < n - 1 && nums[j] == nums[j + 1]) j++;
+            }
+            while (i < n - 1 && nums[i] == nums[i + 1]) i++;
+        }
+        return ans;
+
+    }
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+
+    int target = 26;
+    vector<int> vec = { 2,7,11,15,5,2,23,6 };
+
+    vector<vector<int>> test_vec;
+
+    test_vec.push_back(vector<int> {2, 2, 7, 15});
+    test_vec.push_back(vector<int> {2,6,7,11});
+    
+
+    vector<vector<int>> result = Solution::fourSum(vec, target);
+
+    if (result == test_vec) {
+        std::cout << "Test comlete" << std::endl;
+    }
+    else {
+
+        std::cout << "Test denied" << std::endl;
+    }
+    
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
