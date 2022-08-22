@@ -48,7 +48,6 @@ int main()
     q->right->left = nullptr;
     q->right->right = nullptr;
 
-
     TreeNode* p2 = new TreeNode(1);
     p2->left = new TreeNode(2);
     p2->right = nullptr;
